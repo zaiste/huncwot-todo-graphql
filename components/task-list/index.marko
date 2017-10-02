@@ -1,0 +1,31 @@
+import store from 'store';
+import { autorun } from 'mobx';
+
+class {
+  onCreate() {
+    this.state = { 
+      tasks: []
+    };
+  }
+  onMount() {
+    autorun(() => {
+      let { tasks } = store;
+      this.state = { tasks }
+      store.tasks[0].completed;
+      this.forceUpdate();
+    });
+  }
+
+  done({ index }) {
+    store.markAsDone(index);
+  }
+}
+
+style {
+}
+
+<ul>
+  <li for (task in state.tasks | status-var=loop)>
+    <task task=task index=loop.getIndex() on-done('done') />
+  </li>
+</ul>

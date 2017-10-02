@@ -1,0 +1,23 @@
+import store from 'store';
+import { autorun } from 'mobx';
+
+class {
+  onMount() {
+    autorun(() => {
+      this.input.task.completed;
+      this.forceUpdate();
+    });
+  }
+
+  markAsDone() {
+    store.markAsDone(this.input.index);
+  }
+}
+
+style {
+  .completed {
+    text-decoration: line-through;
+  }
+}
+
+<div class=(input.task.completed ? 'completed' : '') on-click('markAsDone')>${input.task.name}</div>

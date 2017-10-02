@@ -1,0 +1,65 @@
+import gql from 'graphql-tag';
+import client from 'services/graphql';
+
+static {
+  const query = gql`
+    query WidgetsQuery {
+      widgets {
+        id
+        name
+        completed
+      }
+    }
+  `;
+
+  const mutation = gql`
+    mutation ToggleTask($taskId: Int!) {
+      toggle(taskId: $taskId) {
+        id
+        name
+        completed
+      }
+    }
+  `;
+}
+
+class {
+  onCreate() {
+    this.state = {
+      widgets: []
+    }
+  }
+
+  onMount() {
+    client.query({ query })
+      .then(({ data }) => {
+        this.state.widgets = data.widgets;
+      })
+  }
+
+  done({ index }) {
+    client.mutate({ mutation, variables: { taskId: index } })
+      .then(({ data }) => {
+        console.log(data);
+      });
+  }
+}
+
+style {
+  .completed {
+    text-decoration: line-through;
+  }
+}
+
+<div>
+  <h1.title>List of tasks for Today</h1>
+
+  <ul>
+    <li for (task in state.widgets) >
+      <label class="checkbox">
+        <input type="checkbox" checked=task.completed on-click("done", { index: task.id })>
+        <span class=(task.completed ? 'completed' : '')>${task.name}</span>
+      </label>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,14 @@
+{
+  "development": {
+    "client": "sqlite3",
+    "filename": "./db/development.sqlite3"
+  },
+  "test": {
+    "client": "sqlite3",
+    "filename": "./db/test.sqlite3"
+  },
+  "production": {
+    "client": "sqlite3",
+    "filename": "./db/production.sqlite3"
+  }
+}
